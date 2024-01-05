@@ -1,0 +1,14 @@
+load("//bazel:tachyon_cc.bzl", "tachyon_cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+tachyon_cc_library(
+    name = "quadratic_arithmetic_program",
+    hdrs = ["quadratic_arithmetic_program.h"],
+    deps = [
+        "//tachyon/base:logging",
+        "//tachyon/base/containers:container_util",
+        "//tachyon/math/polynomials/univariate:univariate_evaluation_domain",
+        "@com_google_absl//absl/numeric:bits",
+    ],
+)
