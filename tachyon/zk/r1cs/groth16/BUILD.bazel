@@ -1,0 +1,31 @@
+load("//bazel:tachyon_cc.bzl", "tachyon_cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+tachyon_cc_library(
+    name = "proving_key",
+    hdrs = ["proving_key.h"],
+    deps = [
+        ":toxic_waste",
+        "//tachyon/base:logging",
+        "//tachyon/base/containers:container_util",
+        "//tachyon/zk/r1cs:quadratic_arithmetic_program",
+    ],
+)
+
+tachyon_cc_library(
+    name = "toxic_waste",
+    hdrs = ["toxic_waste.h"],
+)
+
+tachyon_cc_library(
+    name = "verifying_key",
+    hdrs = ["verifying_key.h"],
+    deps = [
+        ":toxic_waste",
+        "//tachyon/base:logging",
+        "//tachyon/base/containers:container_util",
+        "//tachyon/math/elliptic_curves/pairing",
+        "//tachyon/zk/r1cs:quadratic_arithmetic_program",
+    ],
+)
