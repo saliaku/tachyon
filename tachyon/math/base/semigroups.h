@@ -297,6 +297,23 @@ class AdditiveSemigroup {
     }
   }
 
+  // generator: g
+  // return: [c, c * g, c * 2 * g, ..., c * (|size| - 1) * g]
+  constexpr static std::vector<ReturnTy> GetSuccessiveScalarMuls(
+      size_t size, const G& generator, const G& c = G::One()) {
+    std::vector<ReturnTy> ret;
+    ret.resize(size);
+    size_t num_elems_per_thread = base::GetNumElementsPerThread(ret);
+    OPENMP_PARALLEL_FOR(size_t i = 0; i < size; i += num_elems_per_thread) {
+      ReturnTy scalar_mul = c * generator.ScalarMul(i);
+      for (size_t j = i; j < i + num_elems_per_thread && j < size; ++j) {
+        ret[j] = scalar_mul;
+        scalar_mul += generator;
+      }
+    }
+    return ret;
+  }
+
  private:
   template <size_t N>
   [[nodiscard]] constexpr ReturnTy DoScalarMul(const BigInt<N>& scalar) const {
