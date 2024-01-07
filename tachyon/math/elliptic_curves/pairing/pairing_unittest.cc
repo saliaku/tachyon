@@ -31,7 +31,6 @@ TYPED_TEST(PairingTest, Bilinearity) {
   using G1AffinePointTy = typename G1Curve::AffinePointTy;
   using G2Curve = typename Curve::G2Curve;
   using G2AffinePointTy = typename G2Curve::AffinePointTy;
-  using G2Prepared = typename Curve::G2Prepared;
   using ScalarField = typename G1Curve::ScalarField;
   using Fp12Ty = typename Curve::Fp12Ty;
 
@@ -43,14 +42,14 @@ TYPED_TEST(PairingTest, Bilinearity) {
   Fp12Ty result;
   {
     std::vector<G1AffinePointTy> g1s = {(a * b * g1).ToAffine()};
-    std::vector<G2Prepared> g2s = {G2Prepared::From(g2)};
+    std::vector<G2AffinePointTy> g2s = {g2};
     result = Pairing<Curve>(g1s, g2s);
   }
 
   Fp12Ty result2;
   {
     std::vector<G1AffinePointTy> g1s = {(a * g1).ToAffine()};
-    std::vector<G2Prepared> g2s = {G2Prepared::From((b * g2).ToAffine())};
+    std::vector<G2AffinePointTy> g2s = {(b * g2).ToAffine()};
     result2 = Pairing<Curve>(g1s, g2s);
   }
 
@@ -59,7 +58,7 @@ TYPED_TEST(PairingTest, Bilinearity) {
   Fp12Ty result3;
   {
     std::vector<G1AffinePointTy> g1s = {(b * g1).ToAffine()};
-    std::vector<G2Prepared> g2s = {G2Prepared::From((a * g2).ToAffine())};
+    std::vector<G2AffinePointTy> g2s = {(a * g2).ToAffine()};
     result3 = Pairing<Curve>(g1s, g2s);
   }
 
@@ -68,7 +67,7 @@ TYPED_TEST(PairingTest, Bilinearity) {
   Fp12Ty result4;
   {
     std::vector<G1AffinePointTy> g1s = {g1};
-    std::vector<G2Prepared> g2s = {G2Prepared::From((a * b * g2).ToAffine())};
+    std::vector<G2AffinePointTy> g2s = {(a * b * g2).ToAffine()};
     result4 = Pairing<Curve>(g1s, g2s);
   }
 

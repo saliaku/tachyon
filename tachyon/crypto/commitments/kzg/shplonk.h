@@ -40,7 +40,6 @@ class SHPlonk : public UnivariatePolynomialCommitmentScheme<
       SHPlonk<CurveTy, MaxDegree, Commitment>>;
   using G1PointTy = typename CurveTy::G1Curve::AffinePointTy;
   using G2PointTy = typename CurveTy::G2Curve::AffinePointTy;
-  using G2Prepared = typename CurveTy::G2Prepared;
   using Fp12Ty = typename CurveTy::Fp12Ty;
   using Field = typename Base::Field;
   using Poly = typename Base::Poly;
@@ -322,14 +321,13 @@ class SHPlonk : public UnivariatePolynomialCommitmentScheme<
     lhs += (u * q);
 
     std::vector<G1PointTy> lhs_g1 = {lhs.ToAffine()};
-    std::vector<G2Prepared> lhs_g2 = {
-        CurveTy::G2Prepared::From(G2PointTy::Generator())};
+    std::vector<G2PointTy> lhs_g2 = {G2PointTy::Generator()};
     Fp12Ty lhs_pairing = math::Pairing<CurveTy>(lhs_g1, lhs_g2);
 
     // rhs_g1 = [Q(𝜏)]₁
     // rhs_g2 = [𝜏]₂
     std::vector<G1PointTy> rhs_g1 = {q};
-    std::vector<G2Prepared> rhs_g2 = {CurveTy::G2Prepared::From(tau_g2_)};
+    std::vector<G2PointTy> rhs_g2 = {tau_g2_};
     Fp12Ty rhs_pairing = math::Pairing<CurveTy>(rhs_g1, rhs_g2);
 
     // clang-format off
