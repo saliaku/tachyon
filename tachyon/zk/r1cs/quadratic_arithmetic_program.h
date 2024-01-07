@@ -72,6 +72,11 @@ class QuadraticArithmeticProgram {
     }
   }
 
+  template <typename Container>
+  std::vector<F> ComputeHCoefficients(&self, const Container& witnesses) {
+    return {};
+  }
+
  private:
   static std::vector<Evals> ApplyPadding(const std::vector<Evals>& columns,
                                          size_t pad_zeroes) {
