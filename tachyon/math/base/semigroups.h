@@ -166,7 +166,8 @@ class MultiplicativeSemigroup {
       size_t size, const G& generator, const G& c = G::One()) {
     std::vector<ReturnTy> ret;
     ret.resize(size);
-    size_t num_elems_per_thread = base::GetNumElementsPerThread(ret);
+    size_t num_elems_per_thread =
+        base::GetNumElementsPerThread(ret, kDefaultParallelThreshold);
     OPENMP_PARALLEL_FOR(size_t i = 0; i < size; i += num_elems_per_thread) {
       ReturnTy pow = c * generator.Pow(i);
       for (size_t j = i; j < i + num_elems_per_thread && j < size; ++j) {
@@ -178,6 +179,8 @@ class MultiplicativeSemigroup {
   }
 
  private:
+  constexpr static size_t kDefaultParallelThreshold = 1024;
+
   template <size_t N>
   [[nodiscard]] constexpr ReturnTy DoPow(const BigInt<N>& exponent) const {
     const G* g = static_cast<const G*>(this);
@@ -303,7 +306,8 @@ class AdditiveSemigroup {
       size_t size, const G& generator, const G& c = G::One()) {
     std::vector<ReturnTy> ret;
     ret.resize(size);
-    size_t num_elems_per_thread = base::GetNumElementsPerThread(ret);
+    size_t num_elems_per_thread =
+        base::GetNumElementsPerThread(ret, kDefaultParallelThreshold);
     OPENMP_PARALLEL_FOR(size_t i = 0; i < size; i += num_elems_per_thread) {
       ReturnTy scalar_mul = c * generator.ScalarMul(i);
       for (size_t j = i; j < i + num_elems_per_thread && j < size; ++j) {
@@ -315,6 +319,8 @@ class AdditiveSemigroup {
   }
 
  private:
+  constexpr static size_t kDefaultParallelThreshold = 1024;
+
   template <size_t N>
   [[nodiscard]] constexpr ReturnTy DoScalarMul(const BigInt<N>& scalar) const {
     const G* g = static_cast<const G*>(this);
@@ -352,7 +358,8 @@ class AdditiveSemigroup {
       LOG(ERROR) << "scalars and bases are empty";
       return false;
     }
-    size_t num_elems_per_thread = base::GetNumElementsPerThread(scalars);
+    size_t num_elems_per_thread =
+        base::GetNumElementsPerThread(scalars, kDefaultParallelThreshold);
     OPENMP_PARALLEL_FOR(size_t i = 0; i < size; i += num_elems_per_thread) {
       for (size_t j = i; j < i + num_elems_per_thread && j < size; ++j) {
         (*outputs)[j] = bases[j].ScalarMul(scalars[j]);
@@ -372,7 +379,8 @@ class AdditiveSemigroup {
       LOG(ERROR) << "scalars are empty";
       return false;
     }
-    size_t num_elems_per_thread = base::GetNumElementsPerThread(scalars);
+    size_t num_elems_per_thread =
+        base::GetNumElementsPerThread(scalars, kDefaultParallelThreshold);
     OPENMP_PARALLEL_FOR(size_t i = 0; i < size; i += num_elems_per_thread) {
       for (size_t j = i; j < i + num_elems_per_thread && j < size; ++j) {
         (*outputs)[j] = base.ScalarMul(scalars[j]);
@@ -392,7 +400,8 @@ class AdditiveSemigroup {
       LOG(ERROR) << "bases are empty";
       return false;
     }
-    size_t num_elems_per_thread = base::GetNumElementsPerThread(bases);
+    size_t num_elems_per_thread =
+        base::GetNumElementsPerThread(bases, kDefaultParallelThreshold);
     OPENMP_PARALLEL_FOR(size_t i = 0; i < size; i += num_elems_per_thread) {
       for (size_t j = i; j < i + num_elems_per_thread && j < size; ++j) {
         (*outputs)[j] = bases[j].ScalarMul(scalar);
