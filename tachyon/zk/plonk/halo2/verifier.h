@@ -45,10 +45,18 @@ class Verifier : public VerifierBase<PCS> {
   }
 
  private:
-  FRIEND_TEST(SimpleCircuitTest, Verify);
-  FRIEND_TEST(SimpleLookupCircuitTest, Verify);
-  FRIEND_TEST(SimpleV1CircuitTest, Verify);
-  FRIEND_TEST(SimpleLookupV1CircuitTest, Verify);
+  FRIEND_TEST(SimpleCircuitTest, VerifyProof);
+  FRIEND_TEST(SimpleLookupCircuitTest, VerifyProof);
+  FRIEND_TEST(SimpleV1CircuitTest, VerifyProof);
+  FRIEND_TEST(SimpleLookupV1CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci1CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci1V1CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci2CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci2V1CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci3CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci3V1CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci4CircuitTest, VerifyProof);
+  FRIEND_TEST(Fibonacci4V1CircuitTest, VerifyProof);
 
   bool VerifyProofForTesting(
       const VerifyingKey<PCS>& vkey,
@@ -61,6 +69,12 @@ class Verifier : public VerifierBase<PCS> {
       instance_commitments_vec = CommitColumnsVec(vkey, instance_columns_vec);
     } else {
       instance_commitments_vec.resize(instance_columns_vec.size());
+    }
+    for (const std::vector<Commitment>& instance_commitments :
+         instance_commitments_vec) {
+      for (const Commitment& commitment : instance_commitments) {
+        std::cout << commitment.ToHexString() << std::endl;
+      }
     }
 
     crypto::TranscriptReader<Commitment>* transcript = this->GetReader();

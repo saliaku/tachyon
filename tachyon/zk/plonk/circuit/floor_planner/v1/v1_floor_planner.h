@@ -47,7 +47,7 @@ class V1FloorPlanner : public FloorPlanner<CircuitTy> {
     MeasurementPass<F> measure;
     {
       V1Pass<F> pass(&measure);
-      circuit.WithoutWitness()->Synthesize(std::move(config), &pass);
+      circuit.WithoutWitness()->Synthesize(std::move(config.Clone()), &pass);
     }
     for (const typename MeasurementPass<F>::Region& region :
          measure.regions()) {
