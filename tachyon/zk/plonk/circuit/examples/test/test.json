@@ -1,0 +1,48 @@
+{
+    "circuit_name": "simple_circuit",
+    "n": 16,
+    "extended_n": 32,
+    "fixed_columns": [
+        {
+            "poly": {
+                "coefficients": [
+                    "0x1b386c209eabea1777ad2736a8d8c1b4669d32a8c4784f51b62f1a2337000001"
+                ]
+            },
+            "evals": {
+                "evaluations": [
+                    "0x7"
+                ]
+            },
+            "commitment": {
+                "x": "0x0",
+                "y": "0x0"
+            }
+        },
+        {
+            "poly": {
+                "coefficients": [
+                    "0x1b386c209eabea1777ad2736a8d8c1b4669d32a8c4784f51b62f1a2337000001"
+                ]
+            },
+            "evals": {
+                "evaluations": [
+                    "0x7"
+                ]
+            },
+            "commitment": {
+                "x": "0x0",
+                "y": "0x0"
+            }
+        }
+    ],
+    "l_first": {
+        "coefficients": []
+    },
+    "l_last": {
+        "coefficients": []
+    },
+    "l_active_rows": {
+        "coefficients": []
+    }
+}
