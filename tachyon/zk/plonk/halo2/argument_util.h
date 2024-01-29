@@ -173,14 +173,14 @@ template <typename PCS, typename Poly, typename F, ColumnType C>
 std::vector<crypto::PolynomialOpening<Poly>> GenerateColumnOpenings(
     const ProverBase<PCS>* prover, absl::Span<const Poly> polys,
     const std::vector<QueryData<C>>& queries, const F& x, PointSet<F>& points) {
-  return base::Map(
-      queries, [prover, polys, &points, &x](const QueryData<C>& query) mutable {
-        const F point = query.rotation().RotateOmega(prover->domain(), x);
-        base::DeepRef<const F> point_ref = points.Insert(point);
-        const Poly& poly = polys[query.column().index()];
-        return crypto::PolynomialOpening<Poly>(base::DeepRef<const Poly>(&poly),
-                                               point_ref, poly.Evaluate(point));
-      });
+  return base::Map(queries, [prover, polys, &points,
+                             &x](const QueryData<C>& query) mutable {
+    const F point = query.rotation().RotateOmega(prover->domain(), x);
+    base::DeepRef<const F> point_ref = points.Insert(point);
+    const Poly& poly = polys[query.column().index()];
+    return crypto::PolynomialOpening<Poly>(base::ShallowRef<const Poly>(&poly),
+                                           point_ref, poly.Evaluate(point));
+  });
 }
 
 }  // namespace tachyon::zk::halo2

@@ -26,9 +26,9 @@ class SHPlonkTest : public testing::Test {
   using Poly = PCS::Poly;
   using Commitment = PCS::Commitment;
   using Point = Poly::Point;
-  using PolyRef = base::DeepRef<const Poly>;
+  using PolyRef = base::ShallowRef<const Poly>;
   using PointRef = base::DeepRef<const Point>;
-  using CommitmentRef = base::DeepRef<const Commitment>;
+  using CommitmentRef = base::ShallowRef<const Commitment>;
 
   static void SetUpTestSuite() { math::bn254::BN254Curve::Init(); }
 

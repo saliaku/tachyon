@@ -136,12 +136,13 @@ template <typename PCS, typename F, typename Poly = typename PCS::Poly>
 std::vector<crypto::PolynomialOpening<Poly>> OpenVanishingArgument(
     const VanishingEvaluated<PCS>& evaluated, const F& x) {
   base::DeepRef<const F> x_ref(&x);
-  return {crypto::PolynomialOpening<Poly>(
-              base::DeepRef<const Poly>(&evaluated.h_poly()), x_ref,
-              evaluated.h_poly().Evaluate(x)),
-          crypto::PolynomialOpening<Poly>(
-              base::DeepRef<const Poly>(&evaluated.committed().random_poly()),
-              x_ref, evaluated.committed().random_poly().Evaluate(x))};
+  return {
+      crypto::PolynomialOpening<Poly>(
+          base::ShallowRef<const Poly>(&evaluated.h_poly()), x_ref,
+          evaluated.h_poly().Evaluate(x)),
+      crypto::PolynomialOpening<Poly>(
+          base::ShallowRef<const Poly>(&evaluated.committed().random_poly()),
+          x_ref, evaluated.committed().random_poly().Evaluate(x))};
 }
 
 }  // namespace tachyon::zk

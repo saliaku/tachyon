@@ -108,19 +108,19 @@ LookupArgumentRunner<Poly, Evals>::OpenEvaluated(
 
   return {
       crypto::PolynomialOpening<Poly>(
-          base::DeepRef<const Poly>(&evaluated.product_poly().poly()), x_ref,
+          base::ShallowRef<const Poly>(&evaluated.product_poly().poly()), x_ref,
           evaluated.product_poly().poly().Evaluate(x)),
       crypto::PolynomialOpening<Poly>(
-          base::DeepRef<const Poly>(&evaluated.permuted_input_poly().poly()),
+          base::ShallowRef<const Poly>(&evaluated.permuted_input_poly().poly()),
           x_ref, evaluated.permuted_input_poly().poly().Evaluate(x)),
       crypto::PolynomialOpening<Poly>(
-          base::DeepRef<const Poly>(&evaluated.permuted_table_poly().poly()),
+          base::ShallowRef<const Poly>(&evaluated.permuted_table_poly().poly()),
           x_ref, evaluated.permuted_table_poly().poly().Evaluate(x)),
       crypto::PolynomialOpening<Poly>(
-          base::DeepRef<const Poly>(&evaluated.permuted_input_poly().poly()),
+          base::ShallowRef<const Poly>(&evaluated.permuted_input_poly().poly()),
           x_prev_ref, evaluated.permuted_input_poly().poly().Evaluate(x_prev)),
       crypto::PolynomialOpening<Poly>(
-          base::DeepRef<const Poly>(&evaluated.product_poly().poly()),
+          base::ShallowRef<const Poly>(&evaluated.product_poly().poly()),
           x_next_ref, evaluated.product_poly().poly().Evaluate(x_next))};
 }
 
