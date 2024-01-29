@@ -1,17 +1,138 @@
 #include "tachyon/crypto/commitments/kzg/shplonk.h"
 
 #include <memory>
+#include <string>
 
 #include "gtest/gtest.h"
 
+#include "tachyon/base/containers/container_util.h"
+#include "tachyon/base/json/json.h"
 #include "tachyon/crypto/transcripts/simple_transcript.h"
 #include "tachyon/math/elliptic_curves/bn/bn254/bn254.h"
 #include "tachyon/math/elliptic_curves/bn/bn254/g1.h"
 #include "tachyon/math/elliptic_curves/bn/bn254/g2.h"
 #include "tachyon/math/polynomials/univariate/univariate_evaluation_domain_factory.h"
 
-namespace tachyon::crypto {
+namespace tachyon {  // namespace base
+namespace crypto {
 
+template <typename Poly, typename Commitment>
+struct OwnedPolynomialOpening {
+  Poly poly;
+  Commitment commitment;
+  typename Poly::Point point;
+  typename Poly::Field opening;
+};
+
+template <typename Poly, typename Commitment>
+struct OwnedPolynomialOpenings {
+  std::vector<OwnedPolynomialOpening<Poly, Commitment>> prover_openings;
+
+  template <typename PCS>
+  void Validate(const PCS& pcs) const {
+    for (const OwnedPolynomialOpening<Poly, Commitment>& owned_opening :
+         prover_openings) {
+      CHECK(owned_opening.poly.Evaluate(owned_opening.point) ==
+            owned_opening.opening);
+      Commitment commitment;
+      CHECK(pcs.Commit(owned_opening.poly, &commitment));
+      CHECK(commitment == owned_opening.commitment);
+    }
+  }
+
+  std::vector<PolynomialOpening<Poly>> CreateProverOpenings() const {
+    return base::Map(
+        prover_openings,
+        [](const OwnedPolynomialOpening<Poly, Commitment>& owned_opening) {
+          return PolynomialOpening<Poly>(
+              base::ShallowRef<const Poly>(&owned_opening.poly),
+              base::DeepRef<const typename Poly::Point>(&owned_opening.point),
+              owned_opening.opening);
+        });
+  }
+
+  std::vector<PolynomialOpening<Poly, Commitment>> CreateVerifyingOpenings()
+      const {
+    return base::Map(
+        prover_openings,
+        [](const OwnedPolynomialOpening<Poly, Commitment>& owned_opening) {
+          return PolynomialOpening<Poly, Commitment>(
+              base::ShallowRef<const Commitment>(&owned_opening.commitment),
+              base::DeepRef<const typename Poly::Point>(&owned_opening.point),
+              owned_opening.opening);
+        });
+  }
+};
+
+}  // namespace crypto
+
+namespace base {
+
+template <typename Poly, typename Commitment>
+class RapidJsonValueConverter<
+    crypto::OwnedPolynomialOpening<Poly, Commitment>> {
+ public:
+  template <typename Allocator>
+  static rapidjson::Value From(
+      const crypto::OwnedPolynomialOpening<Poly, Commitment>& value,
+      Allocator& allocator) {
+    rapidjson::Value object(rapidjson::kObjectType);
+    AddJsonElement(object, "poly", value.poly, allocator);
+    AddJsonElement(object, "point", value.point, allocator);
+    AddJsonElement(object, "opening", value.opening, allocator);
+    AddJsonElement(object, "commitment", value.commitment, allocator);
+    return object;
+  }
+
+  static bool To(const rapidjson::Value& json_value, std::string_view key,
+                 crypto::OwnedPolynomialOpening<Poly, Commitment>* value,
+                 std::string* error) {
+    Poly poly;
+    Commitment commitment;
+    typename Poly::Point point;
+    typename Poly::Field opening;
+    if (!ParseJsonElement(json_value, "poly", &poly, error)) return false;
+    if (!ParseJsonElement(json_value, "point", &point, error)) return false;
+    if (!ParseJsonElement(json_value, "opening", &opening, error)) return false;
+    if (!ParseJsonElement(json_value, "commitment", &commitment, error))
+      return false;
+    value->poly = std::move(poly);
+    value->commitment = std::move(commitment);
+    value->point = std::move(point);
+    value->opening = std::move(opening);
+    return true;
+  }
+};
+
+template <typename Poly, typename Commitment>
+class RapidJsonValueConverter<
+    crypto::OwnedPolynomialOpenings<Poly, Commitment>> {
+ public:
+  template <typename Allocator>
+  static rapidjson::Value From(
+      const crypto::OwnedPolynomialOpenings<Poly, Commitment>& value,
+      Allocator& allocator) {
+    rapidjson::Value object(rapidjson::kObjectType);
+    AddJsonElement(object, "prover_openings", value.prover_openings, allocator);
+    return object;
+  }
+
+  static bool To(const rapidjson::Value& json_value, std::string_view key,
+                 crypto::OwnedPolynomialOpenings<Poly, Commitment>* value,
+                 std::string* error) {
+    std::vector<crypto::OwnedPolynomialOpening<Poly, Commitment>>
+        prover_openings;
+    if (!ParseJsonElement(json_value, "prover_openings", &prover_openings,
+                          error))
+      return false;
+    value->prover_openings = std::move(prover_openings);
+    return true;
+  }
+};
+
+}  // namespace base
+
+namespace crypto {
 namespace {
 
 class SHPlonkTest : public testing::Test {
@@ -108,4 +229,29 @@ TEST_F(SHPlonkTest, CreateAndVerifyProof) {
   EXPECT_TRUE((pcs_.VerifyOpeningProof(verifier_openings, &reader)));
 }
 
-}  // namespace tachyon::crypto
+TEST_F(SHPlonkTest, ComplexCreateAndVerifyProof) {
+  OwnedPolynomialOpenings<Poly, Commitment> owned_openings;
+  std::string error;
+  EXPECT_TRUE(LoadAndParseJson(
+      base::FilePath(
+          "tachyon/crypto/commitments/kzg/test/shplonk_test_data.json"),
+      &owned_openings, &error));
+  EXPECT_TRUE(error.empty());
+
+  owned_openings.Validate(pcs_);
+
+  SimpleTranscriptWriter<Commitment> writer((base::Uint8VectorBuffer()));
+  std::vector<PolynomialOpening<Poly>> prover_openings =
+      owned_openings.CreateProverOpenings();
+  ASSERT_TRUE(pcs_.CreateOpeningProof(prover_openings, &writer));
+
+  base::Buffer read_buf(writer.buffer().buffer(), writer.buffer().buffer_len());
+  SimpleTranscriptReader<Commitment> reader(std::move(read_buf));
+  std::vector<PolynomialOpening<Poly, Commitment>> verifier_openings =
+      owned_openings.CreateVerifyingOpenings();
+
+  EXPECT_TRUE((pcs_.VerifyOpeningProof(verifier_openings, &reader)));
+}
+
+}  // namespace crypto
+}  // namespace tachyon

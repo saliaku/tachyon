@@ -43,9 +43,12 @@ tachyon_cc_unittest(
         "kzg_unittest.cc",
         "shplonk_unittest.cc",
     ],
+    data = ["test/shplonk_test_data.json"],
     deps = [
         ":shplonk",
         "//tachyon/base/buffer",
+        "//tachyon/base/containers:container_util",
+        "//tachyon/base/json",
         "//tachyon/crypto/transcripts:simple_transcript",
         "//tachyon/math/elliptic_curves/bn/bn254",
         "//tachyon/math/elliptic_curves/bn/bn254:g1",
