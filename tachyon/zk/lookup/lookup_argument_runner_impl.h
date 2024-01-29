@@ -59,9 +59,10 @@ template <typename PCS, typename F>
 LookupCommitted<Poly> LookupArgumentRunner<Poly, Evals>::CommitPermuted(
     ProverBase<PCS>* prover, LookupPermuted<Poly, Evals>&& permuted,
     const F& beta, const F& gamma) {
-  BlindedPolynomial<Poly> grand_product_poly = GrandProductArgument::Commit(
-      prover, CreateNumeratorCallback<F>(permuted, beta, gamma),
-      CreateDenominatorCallback<F>(permuted, beta, gamma));
+  BlindedPolynomial<Poly> grand_product_poly =
+      plonk::GrandProductArgument::Commit(
+          prover, CreateNumeratorCallback<F>(permuted, beta, gamma),
+          CreateDenominatorCallback<F>(permuted, beta, gamma));
 
   return LookupCommitted<Poly>(std::move(permuted).TakePermutedInputPoly(),
                                std::move(permuted).TakePermutedTablePoly(),
@@ -72,8 +73,8 @@ template <typename Poly, typename Evals>
 template <typename PCS, typename F>
 LookupEvaluated<Poly> LookupArgumentRunner<Poly, Evals>::EvaluateCommitted(
     ProverBase<PCS>* prover, LookupCommitted<Poly>&& committed, const F& x) {
-  F x_prev = Rotation::Prev().RotateOmega(prover->domain(), x);
-  F x_next = Rotation::Next().RotateOmega(prover->domain(), x);
+  F x_prev = plonk::Rotation::Prev().RotateOmega(prover->domain(), x);
+  F x_next = plonk::Rotation::Next().RotateOmega(prover->domain(), x);
 
   BlindedPolynomial<Poly> product_poly = std::move(committed).TakeProductPoly();
   BlindedPolynomial<Poly> permuted_input_poly =
@@ -100,8 +101,8 @@ std::vector<crypto::PolynomialOpening<Poly>>
 LookupArgumentRunner<Poly, Evals>::OpenEvaluated(
     const ProverBase<PCS>* prover, const LookupEvaluated<Poly>& evaluated,
     const F& x, PointSet<F>& points) {
-  F x_prev = Rotation::Prev().RotateOmega(prover->domain(), x);
-  F x_next = Rotation::Next().RotateOmega(prover->domain(), x);
+  F x_prev = plonk::Rotation::Prev().RotateOmega(prover->domain(), x);
+  F x_next = plonk::Rotation::Next().RotateOmega(prover->domain(), x);
   base::DeepRef<const F> x_ref(&x);
   base::DeepRef<const F> x_prev_ref = points.Insert(x_prev);
   base::DeepRef<const F> x_next_ref = points.Insert(x_next);

@@ -15,7 +15,7 @@
 #include "tachyon/math/polynomials/univariate/univariate_evaluation_domain.h"
 #include "tachyon/zk/base/row_index.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 // NOTE(lightscale-luke): Rotation class is copyable, assignable, and occupy 32
 // bits per instance. Prefer to pass them by value.
@@ -59,6 +59,6 @@ class TACHYON_EXPORT Rotation {
   int32_t value_ = 0;
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_CONSTRAINT_SYSTEM_ROTATION_H_

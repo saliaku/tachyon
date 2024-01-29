@@ -32,13 +32,13 @@ class ProvingKeyImpl<
     ReadProvingKey(buffer);
   }
 
-  const zk::ProvingKey<PCS>& key() const { return key_; }
+  const zk::plonk::ProvingKey<PCS>& key() const { return key_; }
 
-  const zk::ConstraintSystem<F>& GetConstraintSystem() const {
+  const zk::plonk::ConstraintSystem<F>& GetConstraintSystem() const {
     return key_.verifying_key().constraint_system();
   }
 
-  const std::vector<zk::Phase>& GetAdviceColumnPhases() const {
+  const std::vector<zk::plonk::Phase>& GetAdviceColumnPhases() const {
     return GetConstraintSystem().advice_column_phases();
   }
 
@@ -46,11 +46,11 @@ class ProvingKeyImpl<
     return GetConstraintSystem().ComputeBlindingFactors();
   }
 
-  const std::vector<zk::Phase>& GetChallengePhases() const {
+  const std::vector<zk::plonk::Phase>& GetChallengePhases() const {
     return GetConstraintSystem().challenge_phases();
   }
 
-  const std::vector<zk::FixedColumnKey> GetConstants() const {
+  const std::vector<zk::plonk::FixedColumnKey> GetConstants() const {
     return GetConstraintSystem().constants();
   }
 
@@ -66,7 +66,7 @@ class ProvingKeyImpl<
     return GetConstraintSystem().num_instance_columns();
   }
 
-  std::vector<zk::Phase> GetPhases() const {
+  std::vector<zk::plonk::Phase> GetPhases() const {
     return GetConstraintSystem().GetPhases();
   }
 
@@ -84,13 +84,13 @@ class ProvingKeyImpl<
     ReadBuffer(buffer, key_.fixed_columns_);
     ReadBuffer(buffer, key_.fixed_polys_);
     ReadBuffer(buffer, key_.permutation_proving_key_);
-    key_.vanishing_argument_ = zk::VanishingArgument<F>::Create(
+    key_.vanishing_argument_ = zk::plonk::VanishingArgument<F>::Create(
         key_.verifying_key_.constraint_system());
     CHECK(buffer.Done());
   }
 
   static void ReadVerifyingKey(base::Buffer& buffer,
-                               zk::VerifyingKey<PCS>& vkey) {
+                               zk::plonk::VerifyingKey<PCS>& vkey) {
     // NOTE(chokobole): For k
     ReadU32AsSizeT(buffer);
     ReadBuffer(buffer, vkey.fixed_commitments_);
@@ -103,11 +103,11 @@ class ProvingKeyImpl<
       ReadBuffer(buffer, commitments[i]);
     }
     vkey.permutation_verifying_key_ =
-        zk::PermutationVerifyingKey<Commitment>(std::move(commitments));
+        zk::plonk::PermutationVerifyingKey<Commitment>(std::move(commitments));
   }
 
   static void ReadConstraintSystem(base::Buffer& buffer,
-                                   zk::ConstraintSystem<F>& cs) {
+                                   zk::plonk::ConstraintSystem<F>& cs) {
     cs.num_fixed_columns_ = ReadU32AsSizeT(buffer);
     cs.num_advice_columns_ = ReadU32AsSizeT(buffer);
     cs.num_instance_columns_ = ReadU32AsSizeT(buffer);
@@ -128,7 +128,7 @@ class ProvingKeyImpl<
     ReadBuffer(buffer, cs.constants_);
   }
 
-  zk::ProvingKey<PCS> key_;
+  zk::plonk::ProvingKey<PCS> key_;
 };
 
 }  // namespace tachyon::halo2_api

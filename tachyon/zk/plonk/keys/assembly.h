@@ -16,7 +16,7 @@
 #include "tachyon/zk/plonk/layout/assignment.h"
 #include "tachyon/zk/plonk/permutation/permutation_assembly.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 template <typename PCS>
 class Assembly : public Assignment<typename PCS::Field> {
@@ -86,6 +86,6 @@ class Assembly : public Assignment<typename PCS::Field> {
   base::Range<RowIndex> usable_rows_;
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_KEYS_ASSEMBLY_H_

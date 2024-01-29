@@ -109,120 +109,126 @@ class BufferReader<math::UnivariateEvaluations<F, MaxDegree>> {
 };
 
 template <>
-class BufferReader<zk::Phase> {
+class BufferReader<zk::plonk::Phase> {
  public:
-  static zk::Phase Read(base::Buffer& buffer) {
-    return zk::Phase(BufferReader<uint8_t>::Read(buffer));
+  static zk::plonk::Phase Read(base::Buffer& buffer) {
+    return zk::plonk::Phase(BufferReader<uint8_t>::Read(buffer));
   }
 };
 
 template <>
-class BufferReader<zk::Challenge> {
+class BufferReader<zk::plonk::Challenge> {
  public:
-  static zk::Challenge Read(base::Buffer& buffer) {
+  static zk::plonk::Challenge Read(base::Buffer& buffer) {
     size_t index = ReadU32AsSizeT(buffer);
-    zk::Phase phase = BufferReader<zk::Phase>::Read(buffer);
+    zk::plonk::Phase phase = BufferReader<zk::plonk::Phase>::Read(buffer);
     return {index, phase};
   }
 };
 
 template <>
-class BufferReader<zk::Rotation> {
+class BufferReader<zk::plonk::Rotation> {
  public:
-  static zk::Rotation Read(base::Buffer& buffer) {
-    return zk::Rotation(BufferReader<int32_t>::Read(buffer));
+  static zk::plonk::Rotation Read(base::Buffer& buffer) {
+    return zk::plonk::Rotation(BufferReader<int32_t>::Read(buffer));
   }
 };
 
 template <>
-class BufferReader<zk::Selector> {
+class BufferReader<zk::plonk::Selector> {
  public:
-  static zk::Selector Read(base::Buffer& buffer) {
+  static zk::plonk::Selector Read(base::Buffer& buffer) {
     size_t index = ReadU32AsSizeT(buffer);
     bool is_simple = ReadU8AsBool(buffer);
-    return is_simple ? zk::Selector::Simple(index)
-                     : zk::Selector::Complex(index);
+    return is_simple ? zk::plonk::Selector::Simple(index)
+                     : zk::plonk::Selector::Complex(index);
   }
 };
 
-template <zk::ColumnType C>
-class BufferReader<zk::ColumnKey<C>> {
+template <zk::plonk::ColumnType C>
+class BufferReader<zk::plonk::ColumnKey<C>> {
  public:
-  static zk::ColumnKey<C> Read(base::Buffer& buffer) {
+  static zk::plonk::ColumnKey<C> Read(base::Buffer& buffer) {
     size_t index = ReadU32AsSizeT(buffer);
     uint8_t kind = BufferReader<uint8_t>::Read(buffer);
-    if constexpr (C == zk::ColumnType::kAdvice) {
+    if constexpr (C == zk::plonk::ColumnType::kAdvice) {
       CHECK_EQ(kind, static_cast<int8_t>(C));
-      return zk::ColumnKey<C>(index, BufferReader<zk::Phase>::Read(buffer));
+      return zk::plonk::ColumnKey<C>(
+          index, BufferReader<zk::plonk::Phase>::Read(buffer));
     } else {
-      if constexpr (C == zk::ColumnType::kInstance ||
-                    C == zk::ColumnType::kFixed) {
+      if constexpr (C == zk::plonk::ColumnType::kInstance ||
+                    C == zk::plonk::ColumnType::kFixed) {
         CHECK_EQ(kind, static_cast<int8_t>(C));
-        return zk::ColumnKey<C>(index);
+        return zk::plonk::ColumnKey<C>(index);
       } else {
-        zk::Phase phase = BufferReader<zk::Phase>::Read(buffer);
-        switch (static_cast<zk::ColumnType>(kind)) {
-          case zk::ColumnType::kAdvice:
-            return zk::AdviceColumnKey(index, phase);
-          case zk::ColumnType::kInstance:
-            return zk::InstanceColumnKey(index);
-          case zk::ColumnType::kFixed:
-            return zk::FixedColumnKey(index);
-          case zk::ColumnType::kAny:
+        zk::plonk::Phase phase = BufferReader<zk::plonk::Phase>::Read(buffer);
+        switch (static_cast<zk::plonk::ColumnType>(kind)) {
+          case zk::plonk::ColumnType::kAdvice:
+            return zk::plonk::AdviceColumnKey(index, phase);
+          case zk::plonk::ColumnType::kInstance:
+            return zk::plonk::InstanceColumnKey(index);
+          case zk::plonk::ColumnType::kFixed:
+            return zk::plonk::FixedColumnKey(index);
+          case zk::plonk::ColumnType::kAny:
             break;
         }
         NOTREACHED();
-        return zk::AnyColumnKey();
+        return zk::plonk::AnyColumnKey();
       }
     }
   }
 };
 
 template <>
-class BufferReader<zk::VirtualCell> {
+class BufferReader<zk::plonk::VirtualCell> {
  public:
-  static zk::VirtualCell Read(base::Buffer& buffer) {
-    zk::AnyColumnKey column = BufferReader<zk::AnyColumnKey>::Read(buffer);
-    zk::Rotation rotation = BufferReader<zk::Rotation>::Read(buffer);
+  static zk::plonk::VirtualCell Read(base::Buffer& buffer) {
+    zk::plonk::AnyColumnKey column =
+        BufferReader<zk::plonk::AnyColumnKey>::Read(buffer);
+    zk::plonk::Rotation rotation =
+        BufferReader<zk::plonk::Rotation>::Read(buffer);
     return {column, rotation};
   }
 };
 
-template <zk::ColumnType C>
-class BufferReader<zk::QueryData<C>> {
+template <zk::plonk::ColumnType C>
+class BufferReader<zk::plonk::QueryData<C>> {
  public:
-  static zk::QueryData<C> Read(base::Buffer& buffer) {
-    if constexpr (C == zk::ColumnType::kAny) {
+  static zk::plonk::QueryData<C> Read(base::Buffer& buffer) {
+    if constexpr (C == zk::plonk::ColumnType::kAny) {
       NOTREACHED();
     } else {
-      zk::ColumnKey<C> column = BufferReader<zk::ColumnKey<C>>::Read(buffer);
-      zk::Rotation rotation = BufferReader<zk::Rotation>::Read(buffer);
+      zk::plonk::ColumnKey<C> column =
+          BufferReader<zk::plonk::ColumnKey<C>>::Read(buffer);
+      zk::plonk::Rotation rotation =
+          BufferReader<zk::plonk::Rotation>::Read(buffer);
       return {rotation, column};
     }
   }
 };
 
-template <zk::ColumnType C>
-class BufferReader<zk::Query<C>> {
+template <zk::plonk::ColumnType C>
+class BufferReader<zk::plonk::Query<C>> {
  public:
-  static zk::Query<C> Read(base::Buffer& buffer) {
+  static zk::plonk::Query<C> Read(base::Buffer& buffer) {
     size_t index = ReadU32AsSizeT(buffer);
     size_t column_index = ReadU32AsSizeT(buffer);
-    zk::Rotation rotation = BufferReader<zk::Rotation>::Read(buffer);
-    if constexpr (C == zk::ColumnType::kAdvice) {
-      zk::Phase phase = BufferReader<zk::Phase>::Read(buffer);
+    zk::plonk::Rotation rotation =
+        BufferReader<zk::plonk::Rotation>::Read(buffer);
+    if constexpr (C == zk::plonk::ColumnType::kAdvice) {
+      zk::plonk::Phase phase = BufferReader<zk::plonk::Phase>::Read(buffer);
       return {
           index,
           rotation,
-          zk::ColumnKey<C>(column_index, phase),
+          zk::plonk::ColumnKey<C>(column_index, phase),
       };
     } else {
-      if constexpr (C == zk::ColumnType::kInstance ||
-                    C == zk::ColumnType::kFixed) {
+      if constexpr (C == zk::plonk::ColumnType::kInstance ||
+                    C == zk::plonk::ColumnType::kFixed) {
         return {
             index,
             rotation,
-            zk::ColumnKey<C>(column_index),
+            zk::plonk::ColumnKey<C>(column_index),
         };
       } else {
         NOTREACHED();
@@ -232,53 +238,55 @@ class BufferReader<zk::Query<C>> {
 };
 
 template <typename F>
-class BufferReader<std::unique_ptr<zk::Expression<F>>> {
+class BufferReader<std::unique_ptr<zk::plonk::Expression<F>>> {
  public:
-  static std::unique_ptr<zk::Expression<F>> Read(base::Buffer& buffer) {
+  static std::unique_ptr<zk::plonk::Expression<F>> Read(base::Buffer& buffer) {
     uint8_t kind = BufferReader<uint8_t>::Read(buffer);
     switch (kind) {
       case 0:
-        return zk::ExpressionFactory<F>::Constant(
+        return zk::plonk::ExpressionFactory<F>::Constant(
             BufferReader<F>::Read(buffer));
       case 1:
-        return zk::ExpressionFactory<F>::Selector(
-            BufferReader<zk::Selector>::Read(buffer));
+        return zk::plonk::ExpressionFactory<F>::Selector(
+            BufferReader<zk::plonk::Selector>::Read(buffer));
       case 2:
-        return zk::ExpressionFactory<F>::Fixed(
-            BufferReader<zk::FixedQuery>::Read(buffer));
+        return zk::plonk::ExpressionFactory<F>::Fixed(
+            BufferReader<zk::plonk::FixedQuery>::Read(buffer));
       case 3:
-        return zk::ExpressionFactory<F>::Advice(
-            BufferReader<zk::AdviceQuery>::Read(buffer));
+        return zk::plonk::ExpressionFactory<F>::Advice(
+            BufferReader<zk::plonk::AdviceQuery>::Read(buffer));
       case 4:
-        return zk::ExpressionFactory<F>::Instance(
-            BufferReader<zk::InstanceQuery>::Read(buffer));
+        return zk::plonk::ExpressionFactory<F>::Instance(
+            BufferReader<zk::plonk::InstanceQuery>::Read(buffer));
       case 5:
-        return zk::ExpressionFactory<F>::Challenge(
-            BufferReader<zk::Challenge>::Read(buffer));
+        return zk::plonk::ExpressionFactory<F>::Challenge(
+            BufferReader<zk::plonk::Challenge>::Read(buffer));
       case 6:
-        return zk::ExpressionFactory<F>::Negated(
-            BufferReader<std::unique_ptr<zk::Expression<F>>>::Read(buffer));
+        return zk::plonk::ExpressionFactory<F>::Negated(
+            BufferReader<std::unique_ptr<zk::plonk::Expression<F>>>::Read(
+                buffer));
       case 7: {
-        std::unique_ptr<zk::Expression<F>> left;
+        std::unique_ptr<zk::plonk::Expression<F>> left;
         ReadBuffer(buffer, left);
-        std::unique_ptr<zk::Expression<F>> right;
+        std::unique_ptr<zk::plonk::Expression<F>> right;
         ReadBuffer(buffer, right);
-        return zk::ExpressionFactory<F>::Sum(std::move(left), std::move(right));
+        return zk::plonk::ExpressionFactory<F>::Sum(std::move(left),
+                                                    std::move(right));
       }
       case 8: {
-        std::unique_ptr<zk::Expression<F>> left;
+        std::unique_ptr<zk::plonk::Expression<F>> left;
         ReadBuffer(buffer, left);
-        std::unique_ptr<zk::Expression<F>> right;
+        std::unique_ptr<zk::plonk::Expression<F>> right;
         ReadBuffer(buffer, right);
-        return zk::ExpressionFactory<F>::Product(std::move(left),
-                                                 std::move(right));
+        return zk::plonk::ExpressionFactory<F>::Product(std::move(left),
+                                                        std::move(right));
       }
       case 9: {
-        std::unique_ptr<zk::Expression<F>> expr;
+        std::unique_ptr<zk::plonk::Expression<F>> expr;
         ReadBuffer(buffer, expr);
         F scale = BufferReader<F>::Read(buffer);
-        return zk::ExpressionFactory<F>::Scaled(std::move(expr),
-                                                std::move(scale));
+        return zk::plonk::ExpressionFactory<F>::Scaled(std::move(expr),
+                                                       std::move(scale));
       }
     }
     NOTREACHED();
@@ -287,53 +295,55 @@ class BufferReader<std::unique_ptr<zk::Expression<F>>> {
 };
 
 template <typename F>
-class BufferReader<zk::Gate<F>> {
+class BufferReader<zk::plonk::Gate<F>> {
  public:
-  static zk::Gate<F> Read(base::Buffer& buffer) {
-    std::vector<std::unique_ptr<zk::Expression<F>>> polys;
+  static zk::plonk::Gate<F> Read(base::Buffer& buffer) {
+    std::vector<std::unique_ptr<zk::plonk::Expression<F>>> polys;
     ReadBuffer(buffer, polys);
-    std::vector<zk::Selector> queried_selectors;
+    std::vector<zk::plonk::Selector> queried_selectors;
     ReadBuffer(buffer, queried_selectors);
-    std::vector<zk::VirtualCell> queried_cells;
+    std::vector<zk::plonk::VirtualCell> queried_cells;
     ReadBuffer(buffer, queried_cells);
-    return zk::Gate<F>("", {}, std::move(polys), std::move(queried_selectors),
-                       std::move(queried_cells));
+    return zk::plonk::Gate<F>("", {}, std::move(polys),
+                              std::move(queried_selectors),
+                              std::move(queried_cells));
   }
 };
 
 template <>
-class BufferReader<zk::PermutationArgument> {
+class BufferReader<zk::plonk::PermutationArgument> {
  public:
-  static zk::PermutationArgument Read(base::Buffer& buffer) {
-    std::vector<zk::AnyColumnKey> column_keys;
+  static zk::plonk::PermutationArgument Read(base::Buffer& buffer) {
+    std::vector<zk::plonk::AnyColumnKey> column_keys;
     ReadBuffer(buffer, column_keys);
-    return zk::PermutationArgument(std::move(column_keys));
+    return zk::plonk::PermutationArgument(std::move(column_keys));
   }
 };
 
 template <typename F>
-class BufferReader<zk::LookupArgument<F>> {
+class BufferReader<zk::plonk::LookupArgument<F>> {
  public:
-  static zk::LookupArgument<F> Read(base::Buffer& buffer) {
-    std::vector<std::unique_ptr<zk::Expression<F>>> input_expressions;
+  static zk::plonk::LookupArgument<F> Read(base::Buffer& buffer) {
+    std::vector<std::unique_ptr<zk::plonk::Expression<F>>> input_expressions;
     ReadBuffer(buffer, input_expressions);
-    std::vector<std::unique_ptr<zk::Expression<F>>> table_expressions;
+    std::vector<std::unique_ptr<zk::plonk::Expression<F>>> table_expressions;
     ReadBuffer(buffer, table_expressions);
-    return zk::LookupArgument<F>("", std::move(input_expressions),
-                                 std::move(table_expressions));
+    return zk::plonk::LookupArgument<F>("", std::move(input_expressions),
+                                        std::move(table_expressions));
   }
 };
 
 template <typename Poly, typename Evals>
-class BufferReader<zk::PermutationProvingKey<Poly, Evals>> {
+class BufferReader<zk::plonk::PermutationProvingKey<Poly, Evals>> {
  public:
-  static zk::PermutationProvingKey<Poly, Evals> Read(base::Buffer& buffer) {
+  static zk::plonk::PermutationProvingKey<Poly, Evals> Read(
+      base::Buffer& buffer) {
     std::vector<Evals> permutations;
     ReadBuffer(buffer, permutations);
     std::vector<Poly> polys;
     ReadBuffer(buffer, polys);
-    return zk::PermutationProvingKey<Poly, Evals>(std::move(permutations),
-                                                  std::move(polys));
+    return zk::plonk::PermutationProvingKey<Poly, Evals>(
+        std::move(permutations), std::move(polys));
   }
 };
 

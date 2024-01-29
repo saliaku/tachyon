@@ -25,7 +25,7 @@
 #include "tachyon/zk/plonk/vanishing/graph_evaluator.h"
 #include "tachyon/zk/plonk/vanishing/vanishing_utils.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 template <typename PCS>
 class ProvingKey;
@@ -415,6 +415,6 @@ class CircuitPolynomialBuilder {
   OwnedTable<Evals> table_;
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_VANISHING_CIRCUIT_POLYNOMIAL_BUILDER_H_

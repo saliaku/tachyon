@@ -7,7 +7,7 @@
 #include "tachyon/zk/plonk/base/column_key.h"
 #include "tachyon/zk/plonk/constraint_system/rotation.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 class TACHYON_EXPORT VirtualCell {
  public:
@@ -33,6 +33,6 @@ class TACHYON_EXPORT VirtualCell {
   Rotation rotation_;
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_CONSTRAINT_SYSTEM_VIRTUAL_CELL_H_

@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 template <typename PCS>
 class VanishingPartiallyEvaluated {
@@ -41,6 +41,6 @@ class VanishingPartiallyEvaluated {
   F random_eval_;
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_VANISHING_VANISHING_PARTIALLY_EVALUATED_H_

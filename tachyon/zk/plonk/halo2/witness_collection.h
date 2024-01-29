@@ -21,17 +21,17 @@
 namespace tachyon::zk::halo2 {
 
 template <typename PCS>
-class WitnessCollection : public Assignment<typename PCS::Field> {
+class WitnessCollection : public plonk::Assignment<typename PCS::Field> {
  public:
   using F = typename PCS::Field;
   using Domain = typename PCS::Domain;
   using Evals = typename PCS::Evals;
   using RationalEvals = typename PCS::RationalEvals;
-  using AssignCallback = typename Assignment<F>::AssignCallback;
+  using AssignCallback = typename plonk::Assignment<F>::AssignCallback;
 
   WitnessCollection() = default;
   WitnessCollection(const Domain* domain, size_t num_advice_columns,
-                    RowIndex usable_rows, Phase current_phase,
+                    RowIndex usable_rows, plonk::Phase current_phase,
                     const absl::btree_map<size_t, F>& challenges,
                     const std::vector<Evals>& instance_columns)
       : advices_(base::CreateVector(num_advice_columns,
@@ -45,7 +45,7 @@ class WitnessCollection : public Assignment<typename PCS::Field> {
   // That's why, |WitnessCollection| will be released as soon as emitting it.
   std::vector<RationalEvals>&& TakeAdvices() && { return std::move(advices_); }
 
-  Value<F> QueryInstance(const InstanceColumnKey& column,
+  Value<F> QueryInstance(const plonk::InstanceColumnKey& column,
                          RowIndex row) override {
     CHECK(usable_rows_.Contains(row));
     CHECK_LT(column.index(), instance_columns_.size());
@@ -53,7 +53,7 @@ class WitnessCollection : public Assignment<typename PCS::Field> {
     return Value<F>::Known(*instance_columns_[column.index()][row]);
   }
 
-  void AssignAdvice(std::string_view, const AdviceColumnKey& column,
+  void AssignAdvice(std::string_view, const plonk::AdviceColumnKey& column,
                     RowIndex row, AssignCallback assign) override {
     // Ignore assignment of advice column in different phase than current one.
     if (current_phase_ < column.phase()) return;
@@ -64,7 +64,7 @@ class WitnessCollection : public Assignment<typename PCS::Field> {
     *advices_[column.index()][row] = std::move(assign).Run().value();
   }
 
-  Value<F> GetChallenge(const Challenge& challenge) override {
+  Value<F> GetChallenge(const plonk::Challenge& challenge) override {
     CHECK_LT(challenge.index(), challenges_.size());
     return Value<F>::Known(challenges_[challenge.index()]);
   }
@@ -72,7 +72,7 @@ class WitnessCollection : public Assignment<typename PCS::Field> {
  private:
   std::vector<RationalEvals> advices_;
   base::Range<RowIndex> usable_rows_;
-  Phase current_phase_;
+  plonk::Phase current_phase_;
   absl::btree_map<size_t, F> challenges_;
   std::vector<Evals> instance_columns_;
 };

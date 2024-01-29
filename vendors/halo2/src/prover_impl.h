@@ -41,7 +41,8 @@ class ProverImpl {
     prover_.transcript_ = std::move(writer);
   }
 
-  void SetExtendedDomain(const zk::ConstraintSystem<Field>& constraint_system) {
+  void SetExtendedDomain(
+      const zk::plonk::ConstraintSystem<Field>& constraint_system) {
     uint32_t extended_k = constraint_system.ComputeExtendedK(prover_.pcs().K());
     prover_.set_extended_domain(
         ExtendedDomain::Create(size_t{1} << extended_k));
@@ -51,7 +52,7 @@ class ProverImpl {
     prover_.blinder_.set_blinding_factors(binding_factors);
   }
 
-  void CreateProof(const zk::ProvingKey<PCS>& proving_key,
+  void CreateProof(const zk::plonk::ProvingKey<PCS>& proving_key,
                    zk::halo2::ArgumentData<PCS>* argument_data) {
     prover_.CreateProof(proving_key, argument_data);
   }

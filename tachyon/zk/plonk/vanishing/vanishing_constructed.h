@@ -12,7 +12,7 @@
 
 #include "tachyon/zk/plonk/vanishing/vanishing_committed.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 template <typename PCS>
 class VanishingConstructed {
@@ -39,6 +39,6 @@ class VanishingConstructed {
   VanishingCommitted<PCS> committed_;
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_VANISHING_VANISHING_CONSTRUCTED_H_

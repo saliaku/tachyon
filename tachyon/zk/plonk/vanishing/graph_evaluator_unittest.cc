@@ -6,7 +6,7 @@
 #include "tachyon/zk/expressions/evaluator/test/evaluator_test.h"
 #include "tachyon/zk/expressions/expression_factory.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 using Expr = std::unique_ptr<Expression<GF7>>;
 
@@ -132,4 +132,4 @@ TEST_F(GraphEvaluatorTest, Challenges) {
 
 // TODO(chokobole): AddTest for Negated, Sum, Product and Scale.
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk

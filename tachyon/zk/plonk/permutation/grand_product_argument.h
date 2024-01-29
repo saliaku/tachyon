@@ -10,7 +10,7 @@
 #include "tachyon/zk/base/blinded_polynomial.h"
 #include "tachyon/zk/base/entities/prover_base.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 class GrandProductArgument {
  public:
@@ -112,6 +112,6 @@ class GrandProductArgument {
   }
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_PERMUTATION_GRAND_PRODUCT_ARGUMENT_H_

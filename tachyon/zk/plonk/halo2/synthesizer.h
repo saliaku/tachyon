@@ -26,7 +26,8 @@ class Synthesizer {
   using RationalEvals = typename PCS::RationalEvals;
 
   Synthesizer() = default;
-  Synthesizer(size_t num_circuits, const ConstraintSystem<F>* constraint_system)
+  Synthesizer(size_t num_circuits,
+              const plonk::ConstraintSystem<F>* constraint_system)
       : num_circuits_(num_circuits), constraint_system_(constraint_system) {
     advice_columns_vec_.resize(num_circuits_);
     advice_blinds_vec_.resize(num_circuits_);
@@ -55,7 +56,7 @@ class Synthesizer {
       prover->pcs().SetBatchMode(constraint_system_->num_advice_columns() *
                                  num_circuits_);
     }
-    for (Phase current_phase : constraint_system_->GetPhases()) {
+    for (plonk::Phase current_phase : constraint_system_->GetPhases()) {
       for (size_t i = 0; i < num_circuits_; ++i) {
         std::vector<RationalEvals> rational_advice_columns =
             GenerateRationalAdvices(prover, current_phase,
@@ -63,7 +64,7 @@ class Synthesizer {
                                     config);
 
         // Parse only indices related to the |current_phase|.
-        const std::vector<Phase>& advice_phases =
+        const std::vector<plonk::Phase>& advice_phases =
             constraint_system_->advice_column_phases();
         for (size_t j = 0; j < rational_advice_columns.size(); ++j) {
           if (current_phase != advice_phases[j]) continue;
@@ -126,7 +127,7 @@ class Synthesizer {
   // returns a vector of |RationalEvals|.
   template <typename Circuit>
   std::vector<RationalEvals> GenerateRationalAdvices(
-      ProverBase<PCS>* prover, Phase phase,
+      ProverBase<PCS>* prover, plonk::Phase phase,
       const std::vector<Evals>& instance_columns, const Circuit& circuit,
       const typename Circuit::Config& config) {
     // The prover will not be allowed to assign values to advice
@@ -144,8 +145,9 @@ class Synthesizer {
     return std::move(witness).TakeAdvices();
   }
 
-  void UpdateChallenges(ProverBase<PCS>* prover, Phase phase) {
-    const std::vector<Phase>& phases = constraint_system_->challenge_phases();
+  void UpdateChallenges(ProverBase<PCS>* prover, plonk::Phase phase) {
+    const std::vector<plonk::Phase>& phases =
+        constraint_system_->challenge_phases();
     for (size_t i = 0; i < phases.size(); ++i) {
       if (phase == phases[i]) {
         auto it =
@@ -157,7 +159,7 @@ class Synthesizer {
 
   size_t num_circuits_ = 0;
   // not owned
-  const ConstraintSystem<F>* constraint_system_ = nullptr;
+  const plonk::ConstraintSystem<F>* constraint_system_ = nullptr;
 
   absl::btree_map<size_t, F> challenges_;
   std::vector<std::vector<Evals>> advice_columns_vec_;

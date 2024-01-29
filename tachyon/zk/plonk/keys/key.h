@@ -18,7 +18,7 @@
 #include "tachyon/zk/plonk/constraint_system/constraint_system.h"
 #include "tachyon/zk/plonk/keys/assembly.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 template <typename PCS>
 class Key {
@@ -102,6 +102,6 @@ class Key {
   }
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_KEYS_KEY_H_

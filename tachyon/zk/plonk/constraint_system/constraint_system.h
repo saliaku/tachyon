@@ -42,7 +42,7 @@ class ProvingKeyImpl;
 
 }  // namespace halo2_api
 
-namespace zk {
+namespace zk::plonk {
 
 // This is a description of the circuit environment, such as the gate, column
 // and permutation arrangements.
@@ -629,7 +629,7 @@ class ConstraintSystem {
   mutable std::optional<RowIndex> cached_blinding_factors_;
 };
 
-}  // namespace zk
+}  // namespace zk::plonk
 }  // namespace tachyon
 
 #endif  // TACHYON_ZK_PLONK_CONSTRAINT_SYSTEM_CONSTRAINT_SYSTEM_H_

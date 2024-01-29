@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 TEST(RotationTest, GetRotationIdx) {
   struct {
@@ -25,4 +25,4 @@ TEST(RotationTest, GetRotationIdx) {
   }
 }
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk

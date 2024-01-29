@@ -22,10 +22,11 @@ rust::Slice<const uint8_t> SHPlonkProvingKey::challenge_phases() const {
 }
 
 rust::Vec<size_t> SHPlonkProvingKey::constants() const {
-  const std::vector<zk::FixedColumnKey>& constants = impl_->GetConstants();
+  const std::vector<zk::plonk::FixedColumnKey>& constants =
+      impl_->GetConstants();
   rust::Vec<size_t> ret;
   ret.reserve(constants.size());
-  for (const zk::FixedColumnKey& column : constants) {
+  for (const zk::plonk::FixedColumnKey& column : constants) {
     ret.push_back(column.index());
   }
   return ret;
@@ -45,7 +46,7 @@ size_t SHPlonkProvingKey::num_instance_columns() const {
 
 rust::Vec<uint8_t> SHPlonkProvingKey::phases() const {
   return rs::ConvertCppVecToRustVec(
-      impl_->GetPhases(), [](zk::Phase phase) { return phase.value(); });
+      impl_->GetPhases(), [](zk::plonk::Phase phase) { return phase.value(); });
 }
 
 std::unique_ptr<SHPlonkProvingKey> new_proving_key(

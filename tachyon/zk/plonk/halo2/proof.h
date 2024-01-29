@@ -89,7 +89,8 @@ struct Proof {
   }
   bool operator!=(const Proof& other) const { return !operator==(other); }
 
-  VanishingVerificationData<F> ToVanishingVerificationData(size_t i) const {
+  plonk::VanishingVerificationData<F> ToVanishingVerificationData(
+      size_t i) const {
     VanishingVerificationData<F> ret;
     ret.fixed_evals = absl::MakeConstSpan(fixed_evals);
     ret.advice_evals = absl::MakeConstSpan(advice_evals_vec[i]);
@@ -98,7 +99,7 @@ struct Proof {
     return ret;
   }
 
-  PermutationVerificationData<F, C> ToPermutationVerificationData(
+  plonk::PermutationVerificationData<F, C> ToPermutationVerificationData(
       size_t i) const {
     PermutationVerificationData<F, C> ret;
     ret.fixed_evals = absl::MakeConstSpan(fixed_evals);

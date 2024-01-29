@@ -19,7 +19,7 @@
 #include "tachyon/zk/plonk/vanishing/circuit_polynomial_builder.h"
 #include "tachyon/zk/plonk/vanishing/graph_evaluator.h"
 
-namespace tachyon::zk {
+namespace tachyon::zk::plonk {
 
 template <typename PCS>
 class ProvingKey;
@@ -114,6 +114,6 @@ class VanishingArgument {
   std::vector<GraphEvaluator<F>> lookups_;
 };
 
-}  // namespace tachyon::zk
+}  // namespace tachyon::zk::plonk
 
 #endif  // TACHYON_ZK_PLONK_VANISHING_VANISHING_ARGUMENT_H_

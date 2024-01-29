@@ -108,7 +108,7 @@ class Verifier : public VerifierBase<PCS> {
     return DoVerify(instance_commitments_vec, vkey, proof, expected_h_eval_out);
   }
 
-  void ComputeAuxValues(const ConstraintSystem<F>& constraint_system,
+  void ComputeAuxValues(const plonk::ConstraintSystem<F>& constraint_system,
                         Proof<F, Commitment>& proof) {
     RowIndex blinding_factors = constraint_system.ComputeBlindingFactors();
     std::vector<F> l_evals = this->domain_->EvaluatePartialLagrangeCoefficients(
@@ -212,7 +212,7 @@ class Verifier : public VerifierBase<PCS> {
   }
 
   static F ComputeInstanceEval(const std::vector<Evals>& instance_columns,
-                               const InstanceQueryData& instance_query,
+                               const plonk::InstanceQueryData& instance_query,
                                const std::vector<F>& partial_lagrange_coeffs,
                                size_t max_rotation) {
     const std::vector<F>& instances =
@@ -227,15 +227,15 @@ class Verifier : public VerifierBase<PCS> {
 
   static std::vector<F> ComputeInstanceEvals(
       const std::vector<Evals>& instance_columns,
-      const std::vector<InstanceQueryData>& instance_queries,
+      const std::vector<plonk::InstanceQueryData>& instance_queries,
       const std::vector<F>& partial_lagrange_coeffs, size_t max_rotation) {
-    return base::Map(instance_queries,
-                     [&instance_columns, &partial_lagrange_coeffs,
-                      max_rotation](const InstanceQueryData& instance_query) {
-                       return ComputeInstanceEval(
-                           instance_columns, instance_query,
-                           partial_lagrange_coeffs, max_rotation);
-                     });
+    return base::Map(
+        instance_queries,
+        [&instance_columns, &partial_lagrange_coeffs,
+         max_rotation](const plonk::InstanceQueryData& instance_query) {
+          return ComputeInstanceEval(instance_columns, instance_query,
+                                     partial_lagrange_coeffs, max_rotation);
+        });
   }
 
   std::vector<std::vector<F>> ComputeInstanceEvalsVec(
@@ -246,11 +246,11 @@ class Verifier : public VerifierBase<PCS> {
       int32_t max = 0;
     };
 
-    const std::vector<InstanceQueryData>& instance_queries =
+    const std::vector<plonk::InstanceQueryData>& instance_queries =
         vkey.constraint_system().instance_queries();
     RotationRange range = std::accumulate(
         instance_queries.begin(), instance_queries.end(), RotationRange(),
-        [](RotationRange& range, const InstanceQueryData& instance) {
+        [](RotationRange& range, const plonk::InstanceQueryData& instance) {
           int32_t rotation_value = instance.rotation().value();
           if (rotation_value < range.min) {
             range.min = rotation_value;
@@ -284,7 +284,8 @@ class Verifier : public VerifierBase<PCS> {
 
   F ComputeExpectedHEval(size_t num_circuits, const VerifyingKey<PCS>& vkey,
                          const Proof<F, Commitment>& proof) {
-    const ConstraintSystem<F>& constraint_system = vkey.constraint_system();
+    const plonk::ConstraintSystem<F>& constraint_system =
+        vkey.constraint_system();
     std::vector<F> expressions;
     const std::vector<Gate<F>>& gates = constraint_system.gates();
     const std::vector<LookupArgument<F>>& lookups = constraint_system.lookups();
@@ -332,12 +333,12 @@ class Verifier : public VerifierBase<PCS> {
   }
 
   size_t GetSizeOfAdviceInstanceColumnQueries(
-      const ConstraintSystem<F>& constraint_system) {
-    const std::vector<AdviceQueryData>& advice_queries =
+      const plonk::ConstraintSystem<F>& constraint_system) {
+    const std::vector<plonk::AdviceQueryData>& advice_queries =
         constraint_system.advice_queries();
     size_t size = advice_queries.size();
     if constexpr (PCS::kQueryInstance) {
-      const std::vector<InstanceQueryData>& instance_queries =
+      const std::vector<plonk::InstanceQueryData>& instance_queries =
           constraint_system.instance_queries();
       size += instance_queries.size();
     }
@@ -368,9 +369,10 @@ class Verifier : public VerifierBase<PCS> {
     std::vector<Opening> queries;
     size_t num_circuits = instance_commitments_vec.size();
 
-    const ConstraintSystem<F>& constraint_system = vkey.constraint_system();
+    const plonk::ConstraintSystem<F>& constraint_system =
+        vkey.constraint_system();
     const std::vector<LookupArgument<F>>& lookups = constraint_system.lookups();
-    const std::vector<FixedQueryData>& fixed_queries =
+    const std::vector<plonk::FixedQueryData>& fixed_queries =
         constraint_system.fixed_queries();
     const std::vector<Commitment>& common_permutation_commitments =
         vkey.permutation_verifying_key().commitments();
@@ -390,13 +392,13 @@ class Verifier : public VerifierBase<PCS> {
 
     for (size_t i = 0; i < num_circuits; ++i) {
       if constexpr (PCS::kQueryInstance) {
-        const std::vector<InstanceQueryData>& instance_queries =
+        const std::vector<plonk::InstanceQueryData>& instance_queries =
             constraint_system.instance_queries();
         CreateColumnQueries(instance_queries, instance_commitments_vec[i],
                             proof.instance_evals_vec[i], proof, queries,
                             points);
       }
-      const std::vector<AdviceQueryData>& advice_queries =
+      const std::vector<plonk::AdviceQueryData>& advice_queries =
           constraint_system.advice_queries();
       CreateColumnQueries(advice_queries, proof.advices_commitments_vec[i],
                           proof.advice_evals_vec[i], proof, queries, points);
