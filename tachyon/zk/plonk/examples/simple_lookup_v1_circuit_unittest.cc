@@ -60,6 +60,72 @@ constexpr uint8_t kExpectedProof[] = {
     162, 210, 171, 230, 111, 50,  248, 118, 206, 52,  121, 43,  116, 34,  115,
     77,  174, 137, 208, 21,  143, 232, 236, 188, 160};
 
+constexpr uint8_t kExpectedMultiProof[] = {
+    47,  182, 87,  188, 243, 30,  63,  165, 203, 25,  53,  75,  159, 66,  202,
+    142, 241, 131, 243, 14,  210, 25,  158, 80,  248, 54,  227, 231, 128, 14,
+    188, 33,  47,  182, 87,  188, 243, 30,  63,  165, 203, 25,  53,  75,  159,
+    66,  202, 142, 241, 131, 243, 14,  210, 25,  158, 80,  248, 54,  227, 231,
+    128, 14,  188, 33,  161, 99,  130, 124, 10,  20,  160, 177, 184, 226, 59,
+    230, 41,  56,  59,  50,  77,  199, 118, 186, 205, 135, 239, 134, 240, 216,
+    178, 143, 224, 186, 112, 133, 110, 18,  165, 210, 171, 209, 142, 38,  49,
+    39,  167, 176, 66,  2,   157, 206, 154, 213, 99,  116, 249, 18,  192, 71,
+    196, 104, 232, 248, 155, 157, 34,  159, 89,  158, 214, 71,  187, 172, 132,
+    250, 244, 246, 27,  26,  161, 145, 46,  212, 131, 213, 197, 195, 198, 107,
+    243, 182, 186, 151, 97,  0,   50,  34,  16,  153, 109, 145, 193, 251, 94,
+    145, 202, 240, 196, 236, 95,  31,  161, 173, 90,  245, 183, 206, 42,  94,
+    187, 113, 14,  9,   16,  180, 18,  53,  240, 184, 230, 160, 141, 34,  61,
+    50,  56,  77,  136, 29,  85,  118, 10,  11,  246, 144, 45,  247, 193, 24,
+    159, 171, 151, 79,  99,  231, 4,   196, 85,  14,  155, 140, 73,  154, 13,
+    51,  1,   183, 129, 90,  188, 60,  1,   201, 92,  29,  18,  150, 103, 47,
+    167, 207, 151, 155, 254, 184, 236, 190, 146, 119, 107, 159, 165, 160, 64,
+    165, 1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   47,  172, 222, 13,  13,  12,  224, 97,  93,  200, 160, 75,
+    5,   163, 114, 90,  192, 141, 254, 13,  100, 184, 101, 163, 233, 159, 78,
+    5,   241, 39,  149, 5,   40,  11,  98,  1,   131, 105, 31,  119, 211, 35,
+    208, 92,  16,  141, 54,  186, 85,  51,  48,  147, 26,  212, 124, 16,  28,
+    2,   89,  147, 218, 21,  81,  0,   108, 96,  172, 102, 157, 115, 78,  132,
+    158, 105, 84,  190, 71,  232, 56,  178, 31,  177, 102, 86,  121, 78,  135,
+    139, 195, 51,  89,  225, 105, 42,  121, 156, 82,  179, 44,  221, 114, 243,
+    65,  222, 7,   178, 43,  232, 233, 163, 39,  248, 255, 223, 71,  229, 151,
+    12,  34,  80,  73,  103, 57,  110, 1,   139, 223, 171, 204, 73,  3,   168,
+    27,  182, 207, 72,  36,  191, 169, 49,  218, 64,  166, 147, 146, 6,   242,
+    47,  237, 168, 252, 122, 135, 62,  131, 186, 247, 123, 158, 4,   204, 73,
+    3,   168, 27,  182, 207, 72,  36,  191, 169, 49,  218, 64,  166, 147, 146,
+    6,   242, 47,  237, 168, 252, 122, 135, 62,  131, 186, 247, 123, 158, 4,
+    139, 30,  224, 135, 52,  150, 157, 241, 211, 151, 197, 1,   41,  166, 172,
+    233, 28,  128, 103, 213, 108, 62,  199, 22,  27,  44,  107, 62,  220, 198,
+    172, 24,  202, 35,  32,  107, 51,  158, 42,  192, 112, 163, 235, 241, 13,
+    21,  31,  138, 195, 38,  74,  235, 102, 118, 197, 233, 145, 137, 92,  237,
+    50,  169, 218, 31,  1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   147, 9,   27,  191, 53,  255, 133, 161, 207,
+    13,  48,  194, 151, 1,   51,  177, 200, 1,   10,  177, 231, 20,  173, 104,
+    17,  223, 68,  229, 202, 28,  92,  7,   202, 190, 62,  194, 225, 115, 241,
+    77,  54,  107, 222, 211, 213, 40,  221, 124, 236, 132, 45,  28,  50,  124,
+    187, 14,  225, 140, 170, 71,  229, 214, 157, 21,  210, 74,  235, 46,  221,
+    76,  167, 90,  61,  36,  164, 163, 205, 203, 121, 48,  38,  204, 205, 60,
+    50,  87,  40,  8,   134, 231, 171, 226, 150, 94,  48,  7,   229, 121, 5,
+    139, 205, 183, 36,  150, 127, 201, 6,   223, 16,  249, 167, 247, 41,  251,
+    50,  61,  37,  71,  102, 218, 56,  197, 9,   162, 69,  159, 96,  10,  83,
+    156, 93,  126, 48,  239, 157, 14,  151, 244, 182, 207, 214, 114, 206, 66,
+    125, 143, 9,   39,  58,  125, 31,  207, 247, 184, 221, 159, 199, 221, 1,
+    5,   1,   160, 63,  77,  223, 129, 195, 86,  34,  53,  60,  89,  38,  147,
+    91,  250, 196, 77,  154, 203, 20,  87,  74,  15,  23,  14,  193, 179, 251,
+    70,  128, 17,  27,  172, 155, 236, 201, 208, 65,  160, 226, 93,  16,  146,
+    53,  179, 114, 131, 165, 122, 137, 68,  149, 154, 38,  109, 61,  21,  151,
+    184, 239, 157, 122, 41,  149, 180, 63,  151, 95,  120, 63,  5,   163, 232,
+    209, 202, 25,  166, 247, 195, 41,  238, 217, 8,   170, 185, 191, 187, 91,
+    119, 200, 233, 235, 168, 156, 9,   172, 76,  239, 215, 3,   217, 222, 86,
+    109, 249, 0,   195, 134, 197, 87,  64,  151, 214, 250, 23,  241, 132, 6,
+    4,   12,  33,  156, 12,  166, 249, 207, 26,  161, 82,  172, 32,  172, 188,
+    238, 122, 176, 68,  121, 246, 202, 25,  9,   65,  144, 93,  19,  17,  67,
+    179, 86,  103, 217, 182, 214, 217, 248, 12,  119, 39,  188, 160, 17,  210,
+    52,  34,  134, 158, 145, 158, 123, 236, 212, 139, 45,  173, 239, 186, 235,
+    196, 183, 190, 66,  121, 8,   119, 95,  12,  151, 160, 172, 18,  145, 117,
+    33,  138, 63,  122, 32,  15,  217, 123, 11,  246, 172, 91,  51,  159, 113,
+    109, 205, 185, 29,  253, 28,  11,  35,  238, 106, 172, 44,  253, 192, 158};
+
 class SimpleLookupV1CircuitTest : public CircuitTest {};
 
 }  // namespace
@@ -528,19 +594,19 @@ TEST_F(SimpleLookupV1CircuitTest, CreateProof) {
 
   SimpleLookupCircuit<F, kBits, V1FloorPlanner> circuit(4);
   std::vector<SimpleLookupCircuit<F, kBits, V1FloorPlanner>> circuits = {
-      std::move(circuit)};
+      circuit, std::move(circuit)};
 
   std::vector<Evals> instance_columns;
   std::vector<std::vector<Evals>> instance_columns_vec = {
-      std::move(instance_columns)};
+      instance_columns, std::move(instance_columns)};
 
   ProvingKey<PCS> pkey;
   ASSERT_TRUE(pkey.Load(prover_.get(), circuit));
   prover_->CreateProof(pkey, std::move(instance_columns_vec), circuits);
 
   std::vector<uint8_t> proof = prover_->GetWriter()->buffer().owned_buffer();
-  std::vector<uint8_t> expected_proof(std::begin(kExpectedProof),
-                                      std::end(kExpectedProof));
+  std::vector<uint8_t> expected_proof(std::begin(kExpectedMultiProof),
+                                      std::end(kExpectedMultiProof));
   EXPECT_THAT(proof, testing::ContainerEq(expected_proof));
 }
 
@@ -743,6 +809,252 @@ TEST_F(SimpleLookupV1CircuitTest, Verify) {
 
   F expected_h_eval = F::FromHexString(
       "0x01d8f3b1cc0f65fe4a711b22ac8843f20b8f0ca5cf6f01757c018ef1a9a44c7f");
+  EXPECT_EQ(h_eval, expected_h_eval);
+}
+
+TEST_F(SimpleLookupV1CircuitTest, VerifyMultiProof) {
+  size_t n = 32;
+  CHECK(prover_->pcs().UnsafeSetup(n, F(2)));
+  prover_->set_domain(Domain::Create(n));
+
+  SimpleLookupCircuit<F, kBits, V1FloorPlanner> circuit(4);
+
+  VerifyingKey<PCS> vkey;
+  ASSERT_TRUE(vkey.Load(prover_.get(), circuit));
+
+  std::vector<uint8_t> owned_proof(std::begin(kExpectedMultiProof),
+                                   std::end(kExpectedMultiProof));
+  Verifier<PCS> verifier =
+      CreateVerifier(CreateBufferWithProof(absl::MakeSpan(owned_proof)));
+  std::vector<Evals> instance_columns;
+  std::vector<std::vector<Evals>> instance_columns_vec = {
+      instance_columns, std::move(instance_columns)};
+
+  size_t num_circuits = instance_columns_vec.size();
+  Proof<F, Commitment> proof;
+  F h_eval;
+  ASSERT_TRUE(verifier.VerifyProofForTesting(vkey, instance_columns_vec, &proof,
+                                             &h_eval));
+
+  std::vector<std::vector<Commitment>> expected_advice_commitments_vec;
+  {
+    std::vector<Point> points = {
+        {"0x21bc0e80e7e336f8509e19d20ef383f18eca429f4b3519cba53f1ef3bc57b62f",
+         "0x20f77de309a3f81a09883e451c96e1b091f7fc7799e27905444c4759806fc6d2"},
+    };
+    expected_advice_commitments_vec.push_back(CreateCommitments(points));
+
+    points = {
+        {"0x21bc0e80e7e336f8509e19d20ef383f18eca429f4b3519cba53f1ef3bc57b62f",
+         "0x20f77de309a3f81a09883e451c96e1b091f7fc7799e27905444c4759806fc6d2"},
+    };
+    expected_advice_commitments_vec.push_back(CreateCommitments(points));
+  }
+  EXPECT_EQ(proof.advices_commitments_vec, expected_advice_commitments_vec);
+
+  EXPECT_TRUE(proof.challenges.empty());
+
+  F expected_theta = F::FromHexString(
+      "0x19f2e881193a280d2d77a8bc0f9edf053732ec86f93279a580830fb2befeccd7");
+  EXPECT_EQ(proof.theta, expected_theta);
+
+  std::vector<std::vector<LookupPair<Commitment>>>
+      expected_lookup_permuted_commitments_vec;
+  {
+    std::vector<Point> input_points = {
+        {"0x0570bae08fb2d8f086ef87cdba76c74d323b3829e63be2b8b1a0140a7c8263a1",
+         "0x0eb968ee1f6663417be8e37d714a7dec22a717d74bc3c8bc1f4a4bd58da49eed"},
+    };
+    std::vector<Point> table_points = {
+        {"0x1f229d9bf8e868c447c012f97463d59ace9d0242b0a72731268ed1abd2a5126e",
+         "0x29edba749b5dc16811d78ee18bce88c5c61cd56230ad68e73c578361062a317d"},
+    };
+    expected_lookup_permuted_commitments_vec.push_back(
+        CreateLookupPermutedCommitments(input_points, table_points));
+
+    input_points = {
+        {"0x19102232006197bab6f36bc6c3c5d583d42e91a11a1bf6f4fa84acbb47d69e59",
+         "0x1bfa3165ed3f9e4941b37e1c8f4d4e05e1c45c82b55168f5b1adc4af96cd81fb"},
+    };
+    table_points = {
+        {"0x20e6b8f03512b410090e71bb5e2aceb7f55aada11f5fecc4f0ca915efbc1916d",
+         "0x0386bd00ee929fd8e19e80f18f372aca85b7243d28457923d49c511058e3cd55"},
+    };
+    expected_lookup_permuted_commitments_vec.push_back(
+        CreateLookupPermutedCommitments(input_points, table_points));
+  }
+  EXPECT_EQ(proof.lookup_permuted_commitments_vec,
+            expected_lookup_permuted_commitments_vec);
+
+  F expected_beta = F::FromHexString(
+      "0x006a00a3a227c15c50d662d1a7d34e8a1dca3445c79fe17bd0bba1bd324d513e");
+  EXPECT_EQ(proof.beta, expected_beta);
+
+  F expected_gamma = F::FromHexString(
+      "0x08aacbb21c2c304fa7a8f64d8554dba8e3ad16dba09ab0cba0b711c28210802c");
+  EXPECT_EQ(proof.gamma, expected_gamma);
+
+  ASSERT_EQ(proof.permutation_product_commitments_vec.size(), num_circuits);
+  EXPECT_TRUE(proof.permutation_product_commitments_vec[0].empty());
+
+  std::vector<std::vector<Commitment>> expected_lookup_product_commitments_vec;
+  {
+    std::vector<Point> points = {
+        {"0x1a498c9b0e55c404e7634f97ab9f18c1f72d90f60b0a76551d884d38323d228d",
+         "0x158baeb0a976e042a02134658e53c74585234c9f27ed3a9ec40454bca1ae124b"},
+    };
+    expected_lookup_product_commitments_vec.push_back(
+        CreateCommitments(points));
+
+    points = {
+        {"0x2540a0a59f6b7792beecb8fe9b97cfa72f6796121d5cc9013cbc5a81b701330d",
+         "0x00a3fb614af06a4322b1c0fdd2c9c1b5e47f873c8d4ab47aa217a1fec5e39cd1"},
+    };
+    expected_lookup_product_commitments_vec.push_back(
+        CreateCommitments(points));
+  }
+  EXPECT_EQ(proof.lookup_product_commitments_vec,
+            expected_lookup_product_commitments_vec);
+
+  Commitment expected_vanishing_random_poly_commitment;
+  {
+    expected_vanishing_random_poly_commitment = CreateCommitment(
+        {"0x0000000000000000000000000000000000000000000000000000000000000001",
+         "0x0000000000000000000000000000000000000000000000000000000000000002"});
+  }
+  EXPECT_EQ(proof.vanishing_random_poly_commitment,
+            expected_vanishing_random_poly_commitment);
+
+  F expected_y = F::FromHexString(
+      "0x081da6a34bb45df66fa1bbda6850c3b1a5aad71cbc13926a54439251cc884074");
+  EXPECT_EQ(proof.y, expected_y);
+
+  std::vector<Commitment> expected_vanishing_h_poly_commitments;
+  {
+    std::vector<Point> points = {
+        {"0x059527f1054e9fe9a365b8640dfe8dc05a72a3054ba0c85d61e00c0d0ddeac2f",
+         "0x244c3a6aead08117b86d1f46cb5dc9175ba3a3ae928955a158345f0a5d62ce4e"},
+        {"0x005115da9359021c107cd41a93303355ba368d105cd023d3771f698301620b28",
+         "0x21e75a51fb0bf9aeb422e3682af875aeede51f33cca14b4fa4fd8abf569623d2"},
+        {"0x1c792a69e15933c38b874e795666b11fb238e847be54699e844e739d66ac606c",
+         "0x2e2d4868337c81d3a8557f15231d79cdaa609ec6778d2bf386e04aacace2619f"},
+        {"0x2bdf8b016e39674950220c97e547dffff827a3e9e82bb207de41f372dd2cb352",
+         "0x1b37ee7442c7c4072fc090ac2b46cc81e7f222306b35d400b0f94db864c82f81"},
+    };
+    expected_vanishing_h_poly_commitments = CreateCommitments(points);
+  }
+  EXPECT_EQ(proof.vanishing_h_poly_commitments,
+            expected_vanishing_h_poly_commitments);
+
+  F expected_x = F::FromHexString(
+      "0x0a7f0b32529da1d83a2e86cdd521aa1b38b73f08d834762a1e17ba859e38f6c3");
+  EXPECT_EQ(proof.x, expected_x);
+
+  std::vector<std::vector<F>> expected_advice_evals_vec;
+  {
+    std::vector<std::string_view> evals = {
+        "0x049e7bf7ba833e877afca8ed2ff2069293a640da31a9bf2448cfb61ba80349cc",
+    };
+    expected_advice_evals_vec.push_back(CreateEvals(evals));
+
+    evals = {
+        "0x049e7bf7ba833e877afca8ed2ff2069293a640da31a9bf2448cfb61ba80349cc",
+    };
+    expected_advice_evals_vec.push_back(CreateEvals(evals));
+  }
+  EXPECT_EQ(proof.advice_evals_vec, expected_advice_evals_vec);
+
+  std::vector<F> expected_fixed_evals;
+  {
+    std::vector<std::string_view> evals = {
+        "0x18acc6dc3e6b2c1b16c73e6cd567801ce9aca62901c597d3f19d963487e01e8b",
+        "0x1fdaa932ed5c8991e9c57666eb4a26c38a1f150df1eba370c02a9e336b2023ca",
+    };
+    expected_fixed_evals = CreateEvals(evals);
+  }
+  EXPECT_EQ(proof.fixed_evals, expected_fixed_evals);
+
+  F expected_vanishing_random_eval = F::FromHexString(
+      "0x0000000000000000000000000000000000000000000000000000000000000001");
+  EXPECT_EQ(proof.vanishing_random_eval, expected_vanishing_random_eval);
+
+  EXPECT_TRUE(proof.common_permutation_evals.empty());
+
+  ASSERT_EQ(proof.permutation_product_evals_vec.size(), num_circuits);
+  EXPECT_TRUE(proof.permutation_product_evals_vec[0].empty());
+
+  ASSERT_EQ(proof.permutation_product_next_evals_vec.size(), num_circuits);
+  EXPECT_TRUE(proof.permutation_product_next_evals_vec[0].empty());
+
+  ASSERT_EQ(proof.permutation_product_last_evals_vec.size(), num_circuits);
+  EXPECT_TRUE(proof.permutation_product_last_evals_vec[0].empty());
+
+  std::vector<std::vector<F>> expected_lookup_product_evals_vec;
+  {
+    std::vector<std::string_view> evals = {
+        "0x075c1ccae544df1168ad14e7b10a01c8b1330197c2300dcfa185ff35bf1b0993"};
+    expected_lookup_product_evals_vec.push_back(CreateEvals(evals));
+
+    evals = {
+        "0x118046fbb3c10e170f4a5714cb9a4dc4fa5b9326593c352256c381df4d3fa001"};
+    expected_lookup_product_evals_vec.push_back(CreateEvals(evals));
+  }
+  EXPECT_EQ(proof.lookup_product_evals_vec, expected_lookup_product_evals_vec);
+
+  std::vector<std::vector<F>> expected_lookup_product_next_evals_vec;
+  {
+    std::vector<std::string_view> evals = {
+        "0x159dd6e547aa8ce10ebb7c321c2d84ec7cdd28d5d3de6b364df173e1c23ebeca"};
+    expected_lookup_product_next_evals_vec.push_back(CreateEvals(evals));
+
+    evals = {
+        "0x297a9defb897153d6d269a9544897aa58372b33592105de2a041d0c9ec9bac1b"};
+    expected_lookup_product_next_evals_vec.push_back(CreateEvals(evals));
+  }
+  EXPECT_EQ(proof.lookup_product_next_evals_vec,
+            expected_lookup_product_next_evals_vec);
+
+  std::vector<std::vector<F>> expected_lookup_permuted_input_evals_vec;
+  {
+    std::vector<std::string_view> evals = {
+        "0x07305e96e2abe786082857323ccdcc263079cbcda3a4243d5aa74cdd2eeb4ad2"};
+    expected_lookup_permuted_input_evals_vec.push_back(CreateEvals(evals));
+
+    evals = {
+        "0x099ca8ebe9c8775bbbbfb9aa08d9ee29c3f7a619cad1e8a3053f785f973fb495"};
+    expected_lookup_permuted_input_evals_vec.push_back(CreateEvals(evals));
+  }
+  EXPECT_EQ(proof.lookup_permuted_input_evals_vec,
+            expected_lookup_permuted_input_evals_vec);
+
+  std::vector<std::vector<F>> expected_lookup_permuted_input_inv_evals_vec;
+  {
+    std::vector<std::string_view> evals = {
+        "0x0a609f45a209c538da6647253d32fb29f7a7f910df06c97f9624b7cd8b0579e5"};
+    expected_lookup_permuted_input_inv_evals_vec.push_back(CreateEvals(evals));
+
+    evals = {
+        "0x1acff9a60c9c210c040684f117fad6974057c586c300f96d56ded903d7ef4cac"};
+    expected_lookup_permuted_input_inv_evals_vec.push_back(CreateEvals(evals));
+  }
+  EXPECT_EQ(proof.lookup_permuted_input_inv_evals_vec,
+            expected_lookup_permuted_input_inv_evals_vec);
+
+  std::vector<std::vector<F>> expected_lookup_permuted_table_evals_vec;
+  {
+    std::vector<std::string_view> evals = {
+        "0x0501ddc79fddb8f7cf1f7d3a27098f7d42ce72d6cfb6f4970e9def307e5d9c53"};
+    expected_lookup_permuted_table_evals_vec.push_back(CreateEvals(evals));
+
+    evals = {
+        "0x27770cf8d9d6b6d96756b34311135d90410919caf67944b07aeebcac20ac52a1"};
+    expected_lookup_permuted_table_evals_vec.push_back(CreateEvals(evals));
+  }
+  EXPECT_EQ(proof.lookup_permuted_table_evals_vec,
+            expected_lookup_permuted_table_evals_vec);
+
+  F expected_h_eval = F::FromHexString(
+      "0x22000b7c7cb0b3aee0dc8eae939b3dfc5c5482b0e33231fa54cb1ed46e24eab8");
   EXPECT_EQ(h_eval, expected_h_eval);
 }
 

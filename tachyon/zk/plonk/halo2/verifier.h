@@ -52,6 +52,7 @@ class Verifier : public VerifierBase<PCS> {
   FRIEND_TEST(SimpleV1CircuitTest, Verify);
   FRIEND_TEST(SimpleV1CircuitTest, VerifyMultiProof);
   FRIEND_TEST(SimpleLookupV1CircuitTest, Verify);
+  FRIEND_TEST(SimpleLookupV1CircuitTest, VerifyMultiProof);
 
   bool VerifyProofForTesting(
       const VerifyingKey<PCS>& vkey,
