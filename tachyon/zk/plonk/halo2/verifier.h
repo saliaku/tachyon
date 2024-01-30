@@ -49,6 +49,7 @@ class Verifier : public VerifierBase<PCS> {
   FRIEND_TEST(SimpleCircuitTest, VerifyMultiProof);
   FRIEND_TEST(SimpleLookupCircuitTest, Verify);
   FRIEND_TEST(SimpleV1CircuitTest, Verify);
+  FRIEND_TEST(SimpleV1CircuitTest, VerifyMultiProof);
   FRIEND_TEST(SimpleLookupV1CircuitTest, Verify);
 
   bool VerifyProofForTesting(
